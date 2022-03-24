@@ -15,38 +15,50 @@ class GameListPage extends StatefulWidget {
 
 class _GameListPageState extends State<GameListPage> {
   final GameListBloc _gameListBloc = inject.get<GameListBloc>();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
-    _gameListBloc.add(LoadGameListEvent());
+    _gameListBloc.add(const LoadGameListEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("IGDB Games")),
-        body: BlocBuilder<GameListBloc, GameListState>(
-          bloc: _gameListBloc,
-          builder: (context, state) {
-            if (state is GameListEmptyState) {
-              return const Text('Empty list');
-            }
-            if (state is GameListPendingState) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (state is GameListRejectedState) {
-              return Center(child: Text(state.message));
-            }
-
-            List<Game> games = (state as GameListLoadedState).games;
-            return ListView.builder(
-                itemCount: games.length,
-                itemBuilder: (context, index) {
-                  final Game game = games[index];
-                  return Text(game.name);
-                });
+        body: Column(
+      children: [
+        TextField(
+          controller: _searchController,
+          onEditingComplete: () {
+            _gameListBloc.add(LoadGameListEvent(search: _searchController.text));
           },
-        ));
+        ),
+        Expanded(
+          child: BlocBuilder<GameListBloc, GameListState>(
+            bloc: _gameListBloc,
+            builder: (context, state) {
+              if (state is GameListEmptyState) {
+                return const Text('Empty list');
+              }
+              if (state is GameListPendingState) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (state is GameListRejectedState) {
+                return Center(child: Text(state.message));
+              }
+
+              List<Game> games = (state as GameListLoadedState).games;
+              return ListView.builder(
+                  itemCount: games.length,
+                  itemBuilder: (context, index) {
+                    final Game game = games[index];
+                    return Text(game.name);
+                  });
+            },
+          ),
+        ),
+      ],
+    ));
   }
 }
