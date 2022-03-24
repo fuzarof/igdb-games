@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:igdb_games/features/game/presentation/pages/game_list_page.dart';
+import 'package:igdb_games/features/game/presentation/list/pages/game_list_page.dart';
 
 class NavigationHandler {
   final GlobalKey<NavigatorState> appGlobalKey = GlobalKey();
