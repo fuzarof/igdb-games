@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:igdb_games/features/game/presentation/list/widgets/filter_modal_widget.dart';
 import 'package:igdb_games/features/game/presentation/list/widgets/list_search_bar_widget.dart';
 
 class ListAppBar extends SliverAppBar {
@@ -36,9 +37,19 @@ class ListAppBar extends SliverAppBar {
           ),
           actions: [
             IconButton(
-                onPressed: () {},
+                padding: const EdgeInsets.only(right: 16.0),
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    builder: (context) {
+                      return const FilterModal();
+                    },
+                  );
+                },
                 icon: FaIcon(
-                  FontAwesomeIcons.barsStaggered,
+                  FontAwesomeIcons.filter,
+                  size: 20,
                   color: Theme.of(context).colorScheme.onBackground,
                 ))
           ],
