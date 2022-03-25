@@ -10,7 +10,13 @@ class IGDBCustomDio extends DioForNative {
   IGDBCustomDio()
       : super(
           BaseOptions(
-            baseUrl: inject.get<IDotEnvHelper>().getValue(Constants().envConstants.baseUrl),
+            baseUrl: inject.get<IDotEnvHelper>().getValue(Constants().envConstants.igdbBaseUrl),
+            headers: {
+              'Client-ID': inject.get<IDotEnvHelper>().getValue(Constants().envConstants.igdbClientId),
+              'Authorization':
+                  'bearer ${inject.get<IDotEnvHelper>().getValue(Constants().envConstants.igdbToken)}',
+              'Content-Type': 'text/plain',
+            },
           ),
         );
 }

@@ -10,19 +10,19 @@ class DotEnvHelper implements IDotEnvHelper {
   @override
   String getValue(String key) {
     try {
-      return dotenv.env['VAR_NAME'] ?? "";
+      return dotenv.env[key] ?? '';
     } catch (err) {
-      debugPrint("Error getting dotenv variable: $err");
-      return "";
+      debugPrint('Error getting dotenv variable: $err');
+      return '';
     }
   }
 
   @override
   Future<void> init() async {
     try {
-      await dotenv.load(fileName: ".env");
+      await dotenv.load(fileName: '.env');
     } catch (err) {
-      debugPrint("Error loading from dotenv: $err");
+      debugPrint('Error loading from dotenv: $err');
     }
   }
 }
