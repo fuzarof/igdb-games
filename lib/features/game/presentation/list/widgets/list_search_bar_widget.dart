@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class ListSearchBar extends StatelessWidget implements PreferredSizeWidget {
   final BuildContext context;
   final TextEditingController searchController;
-  final Function()? onSend;
+  final Function(String)? onSend;
 
   const ListSearchBar(this.context, {Key? key, required this.searchController, required this.onSend})
       : super(key: key);
@@ -44,8 +44,7 @@ class ListSearchBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
           suffixIcon: IconButton(
-            onPressed: onSend,
-            // TODO: change icon to close
+            onPressed: () => onSend!(''),
             icon: FaIcon(
               FontAwesomeIcons.magnifyingGlass,
               size: 20.0,
@@ -53,7 +52,7 @@ class ListSearchBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
         ),
-        onEditingComplete: onSend,
+        onChanged: onSend,
       ),
     );
   }

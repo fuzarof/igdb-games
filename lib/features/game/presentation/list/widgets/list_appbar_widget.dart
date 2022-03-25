@@ -6,7 +6,7 @@ class ListAppBar extends SliverAppBar {
   ListAppBar(
     BuildContext context, {
     Key? key,
-    Function()? onSend,
+    Function(String)? onSend,
     required bool innerBoxIsScrolled,
     required TextEditingController searchController,
   }) : super(
@@ -16,7 +16,7 @@ class ListAppBar extends SliverAppBar {
             children: [
               FaIcon(
                 FontAwesomeIcons.gamepad,
-                color: Theme.of(context).colorScheme.onBackground.withOpacity(0.8),
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.6),
               ),
               RichText(
                 text: TextSpan(style: Theme.of(context).textTheme.titleLarge, children: [
@@ -34,6 +34,14 @@ class ListAppBar extends SliverAppBar {
               )
             ],
           ),
+          actions: [
+            IconButton(
+                onPressed: () {},
+                icon: FaIcon(
+                  FontAwesomeIcons.barsStaggered,
+                  color: Theme.of(context).colorScheme.onBackground,
+                ))
+          ],
           floating: true,
           snap: true,
           forceElevated: innerBoxIsScrolled,

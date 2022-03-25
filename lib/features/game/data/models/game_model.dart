@@ -13,6 +13,8 @@ class Game extends Equatable {
   const Game(
       {required this.id, required this.name, this.summary, this.cover, this.screenshots, this.platforms});
 
+  const Game.dummy({this.id = 0, this.name = '', this.summary, this.cover, this.screenshots, this.platforms});
+
   factory Game.fromJson(Map<String, dynamic> json) {
     GameCover? cover;
     List<GameScreenshot>? screenshots;
