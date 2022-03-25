@@ -11,9 +11,13 @@ class GameListBloc extends Bloc<GameListEvent, GameListState> {
 
   GameListBloc(this._gameRepository) : super(GameListEmptyState()) {
     on<LoadGameListEvent>((event, emit) async {
-      emit(GameListPendingState());
+      if (event.page == 1) {
+        emit(GameListPendingState());
+      } else {
+        emit(GameListPendingMoreState());
+      }
       try {
-        final response = await _gameRepository.getGames(search: event.search);
+        final response = await _gameRepository.getGames(search: event.search, page: event.page);
         emit(GameListLoadedState(games: response));
       } catch (e) {
         emit(const GameListRejectedState(message: 'Error'));

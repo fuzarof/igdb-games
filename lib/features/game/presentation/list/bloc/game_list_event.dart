@@ -9,6 +9,7 @@ abstract class GameListEvent extends Equatable {
 
 class LoadGameListEvent extends GameListEvent {
   final String? search;
+  final int page;
 
-  const LoadGameListEvent({this.search});
+  const LoadGameListEvent({this.search, required this.page});
 }

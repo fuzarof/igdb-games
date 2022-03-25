@@ -11,6 +11,8 @@ class GameListEmptyState extends GameListState {}
 
 class GameListPendingState extends GameListState {}
 
+class GameListPendingMoreState extends GameListState {}
+
 class GameListLoadedState extends GameListState {
   final List<Game> games;
 

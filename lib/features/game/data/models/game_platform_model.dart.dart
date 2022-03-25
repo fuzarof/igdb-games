@@ -9,7 +9,7 @@ class GamePlatform extends Equatable {
 
   factory GamePlatform.fromJson(Map<String, dynamic> json) => GamePlatform(
         id: json['id'],
-        abbreviation: json['abbreviation'],
+        abbreviation: json['abbreviation'] ?? '',
         name: json['name'],
       );
 

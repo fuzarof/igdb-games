@@ -11,7 +11,7 @@ class GameRepository implements IGameRepository {
 
   @override
   Future<List<Game>> getGames({
-    int? page = 1,
+    required int page,
     String? search,
     Map<String, IGDBQueryData>? where,
   }) async {
@@ -29,8 +29,10 @@ class GameRepository implements IGameRepository {
         'platforms.name',
       ];
 
+      const int limit = 10;
+
       final String query = IGDBQueryHelper.buildQuery(
-          fields: fields, search: search, where: where, limit: 10, offset: 10 * (page! - 1));
+          fields: fields, search: search, where: where, limit: limit, offset: limit * (page - 1));
 
       final response = await _igdbCustomDio.post('/games', data: query);
 
