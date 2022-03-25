@@ -6,8 +6,7 @@ class IGDBQueryHelper {
     String? search,
     Map<String, IGDBQueryData>? where,
   }) {
-    // TODO: update default fields
-    String query = "fields ${(fields ?? ['id', 'name']).join(',')};";
+    String query = "fields ${(fields ?? ['*']).join(',')};";
     if (search != null && search.isNotEmpty) query += 'search "$search";';
     if (where != null) {
       where.forEach((key, value) {
