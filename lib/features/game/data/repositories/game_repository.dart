@@ -12,11 +12,23 @@ class GameRepository implements IGameRepository {
   @override
   Future<List<Game>> getGames({
     int? page = 1,
-    List<String>? fields,
     String? search,
     Map<String, IGDBQueryData>? where,
   }) async {
     try {
+      final List<String> fields = [
+        'id',
+        'name',
+        'summary',
+        'screenshots.id',
+        'screenshots.image_id',
+        'cover.id',
+        'cover.image_id',
+        'platforms.id',
+        'platforms.abbreviation',
+        'platforms.name',
+      ];
+
       final String query = IGDBQueryHelper.buildQuery(
           fields: fields, search: search, where: where, limit: 10, offset: 10 * (page! - 1));
 

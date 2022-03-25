@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:igdb_games/features/game/data/models/game_model.dart';
 import 'package:igdb_games/features/game/presentation/list/bloc/game_list_bloc.dart';
+import 'package:igdb_games/features/game/presentation/list/widgets/game_card_widget.dart';
+import 'package:igdb_games/features/game/presentation/list/widgets/list_appbar_widget.dart';
 import 'package:igdb_games/injection_container.dart';
 
 class GameListPage extends StatefulWidget {
@@ -26,39 +28,61 @@ class _GameListPageState extends State<GameListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: [
-        TextField(
-          controller: _searchController,
-          onEditingComplete: () {
-            _gameListBloc.add(LoadGameListEvent(search: _searchController.text));
-          },
-        ),
-        Expanded(
-          child: BlocBuilder<GameListBloc, GameListState>(
-            bloc: _gameListBloc,
-            builder: (context, state) {
-              if (state is GameListEmptyState) {
-                return const Text('Empty list');
-              }
-              if (state is GameListPendingState) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (state is GameListRejectedState) {
-                return Center(child: Text(state.message));
-              }
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            ListAppBar(
+              context,
+              innerBoxIsScrolled: innerBoxIsScrolled,
+              searchController: _searchController,
+              onSend: () {
+                _gameListBloc.add(
+                  LoadGameListEvent(search: _searchController.text),
+                );
+              },
+            )
+          ];
+        },
+        body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Column(
+              children: [
+                BlocBuilder<GameListBloc, GameListState>(
+                  bloc: _gameListBloc,
+                  builder: (context, state) {
+                    if (state is GameListEmptyState) {
+                      return const Text('Empty list');
+                    }
+                    if (state is GameListPendingState) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (state is GameListRejectedState) {
+                      return Center(child: Text(state.message));
+                    }
 
-              List<Game> games = (state as GameListLoadedState).games;
-              return ListView.builder(
-                  itemCount: games.length,
-                  itemBuilder: (context, index) {
-                    final Game game = games[index];
-                    return Text(game.name);
-                  });
-            },
+                    List<Game> games = (state as GameListLoadedState).games;
+                    return ListView.builder(
+                      padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 0),
+                      itemCount: games.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: ((context, index) {
+                        Game game = games[index];
+                        return Container(
+                          margin: const EdgeInsets.only(top: 8.0),
+                          child: GameCardWidget(game: game),
+                        );
+                      }),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
-      ],
-    ));
+      ),
+    );
   }
 }

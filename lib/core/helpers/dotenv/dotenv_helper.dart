@@ -21,7 +21,6 @@ class DotEnvHelper implements IDotEnvHelper {
   Future<void> init() async {
     try {
       await dotenv.load(fileName: '.env');
-      print(dotenv.env['BASE_URL']);
     } catch (err) {
       debugPrint('Error loading from dotenv: $err');
     }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:igdb_games/application/theme.dart';
 import 'package:igdb_games/core/services/navigation_handler.dart';
 import 'package:igdb_games/injection_container.dart';
 
@@ -7,12 +8,11 @@ class Application extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'IGDB',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-      ),
+      title: 'IGDB Games',
+      theme: themeData,
       onGenerateRoute: inject.get<NavigationHandler>().appRoutes,
       initialRoute: '/',
+      debugShowCheckedModeBanner: false,
     );
   }
 }
