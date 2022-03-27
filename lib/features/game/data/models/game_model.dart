@@ -7,7 +7,7 @@ import 'package:igdb_games/features/game/data/models/game_platform_model.dart.da
 class Game extends Equatable {
   @primaryKey
   final int id;
-  final String name;
+  final String? name;
   final String? summary;
   final GameCover? cover;
   final List<GameScreenshot>? screenshots;
@@ -16,7 +16,7 @@ class Game extends Equatable {
 
   const Game(
       {required this.id,
-      required this.name,
+      this.name,
       this.summary,
       this.cover,
       this.screenshots,
@@ -25,7 +25,7 @@ class Game extends Equatable {
 
   const Game.dummy(
       {this.id = 0,
-      this.name = '',
+      this.name,
       this.summary,
       this.cover,
       this.screenshots,
@@ -50,8 +50,8 @@ class Game extends Equatable {
       }
     }
     Game newGame = Game(
-      id: json['id'],
-      name: json['name'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
       summary: json['summary'],
       similarGames: json['similar_games'] != null
           ? List<int>.from(
@@ -84,5 +84,5 @@ class Game extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, name, summary, cover, screenshots];
+  List<Object?> get props => [id, name, summary, cover, screenshots, platforms, similarGames];
 }

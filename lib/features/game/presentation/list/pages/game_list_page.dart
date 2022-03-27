@@ -49,6 +49,7 @@ class _GameListPageState extends State<GameListPage> {
 
   _buildGameList(bool shimmer) {
     return ListView.builder(
+      key: const Key('game_list_key'),
       padding: EdgeInsets.symmetric(vertical: (shimmer ? 0 : 24.0), horizontal: 0),
       itemCount: shimmer ? 10 : _games.length,
       shrinkWrap: true,

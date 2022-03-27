@@ -40,6 +40,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
       children: [
         const DetailTitle(icon: FontAwesomeIcons.plus, title: 'Similar games'),
         ListView.builder(
+          key: const Key('game_details_key'),
           padding: EdgeInsets.zero,
           itemCount: shimmer ? 10 : _relatedGames.length,
           shrinkWrap: true,
@@ -81,7 +82,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(widget.game.name,
+                Text(widget.game.name ?? '',
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge!
