@@ -21,6 +21,7 @@ class _CarouselSliderState extends State<CarouselSlider> {
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
+        physics: const BouncingScrollPhysics(),
         itemCount: widget.images.length,
         pageSnapping: true,
         controller: _pageController,

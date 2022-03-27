@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:igdb_games/core/services/navigation_handler.dart';
+import 'package:igdb_games/core/services/navigation/navigation_handler.dart';
 import 'package:igdb_games/injection_container.dart';
 
 class CustomLeading extends StatelessWidget {
