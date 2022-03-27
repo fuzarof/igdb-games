@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:igdb_games/core/services/navigation/navigation_handler.dart';
-import 'package:igdb_games/core/widgets/custom_error/custom_error_widget.dart';
 import 'package:igdb_games/core/widgets/custom_slider/carousel_slider.dart';
 import 'package:igdb_games/core/widgets/custom_scaffold/custom_scaffold.dart';
 import 'package:igdb_games/features/game/data/models/game_model.dart';

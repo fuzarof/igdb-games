@@ -104,7 +104,6 @@ class GameCardWidget extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              // TODO: fix this logic
                               ['PS1', 'PS2', 'PS3', 'PS4', 'PS5'].any((platform) =>
                                       game.platforms?.map((p) => p.abbreviation).contains(platform) ?? false)
                                   ? buildPlatformLogo(context, FontAwesomeIcons.playstation)
