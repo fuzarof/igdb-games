@@ -8,11 +8,7 @@ class GameCardWidget extends StatelessWidget {
   final Game game;
   final bool shimmer;
 
-  const GameCardWidget({
-    Key? key,
-    required this.game,
-    this.shimmer = false,
-  }) : super(key: key);
+  const GameCardWidget({Key? key, required this.game, this.shimmer = false}) : super(key: key);
 
   buildPlatformLogo(BuildContext context, IconData icon) {
     return Padding(
@@ -25,23 +21,23 @@ class GameCardWidget extends StatelessWidget {
         children: [
           Flexible(
             flex: 4,
-            child: Hero(
-              tag: "${game.cover?.imageId ?? ''}-${game.id}",
-              child: game.cover != null
-                  ? ExtendedImage.network(
+            child: game.cover != null && game.id != 0
+                ? Hero(
+                    tag: "hero-tag-${game.id}",
+                    child: ExtendedImage.network(
                       game.cover!.cover,
                       fit: BoxFit.cover,
                       width: double.infinity,
                       height: double.infinity,
                       cache: true,
-                    )
-                  : Image.asset(
-                      'assets/image-placeholder.png',
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: double.infinity,
                     ),
-            ),
+                  )
+                : Image.asset(
+                    'assets/image-placeholder.png',
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
           ),
           Flexible(
             flex: 6,

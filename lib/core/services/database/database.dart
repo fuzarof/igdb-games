@@ -8,7 +8,12 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 
 part 'database.g.dart';
 
-@TypeConverters([GameCoverTypeConverter, ListGameScreenshotTypeConverter, ListGamePlatformTypeConverter])
+@TypeConverters([
+  GameCoverTypeConverter,
+  ListGameScreenshotTypeConverter,
+  ListGamePlatformTypeConverter,
+  ListSimilarGamesTypeConverter
+])
 @Database(version: 1, entities: [Game])
 abstract class AppDatabase extends FloorDatabase {
   GameDao get gameDao;

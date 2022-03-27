@@ -82,7 +82,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `game` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `summary` TEXT, `cover` TEXT, `screenshots` TEXT, `platforms` TEXT, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `game` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `summary` TEXT, `cover` TEXT, `screenshots` TEXT, `platforms` TEXT, `similarGames` TEXT, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -110,7 +110,9 @@ class _$GameDao extends GameDao {
                   'screenshots':
                       _listGameScreenshotTypeConverter.encode(item.screenshots),
                   'platforms':
-                      _listGamePlatformTypeConverter.encode(item.platforms)
+                      _listGamePlatformTypeConverter.encode(item.platforms),
+                  'similarGames':
+                      _listSimilarGamesTypeConverter.encode(item.similarGames)
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -122,7 +124,7 @@ class _$GameDao extends GameDao {
   final InsertionAdapter<Game> _gameInsertionAdapter;
 
   @override
-  Future<List<Game>> findAllGames(String search, int limit, int offset) async {
+  Future<List<Game>> findGamesLike(String search, int limit, int offset) async {
     return _queryAdapter.queryList(
         'SELECT * FROM game WHERE name LIKE ?1 LIMIT ?2 OFFSET ?3',
         mapper: (Map<String, Object?> row) => Game(
@@ -133,13 +135,34 @@ class _$GameDao extends GameDao {
             screenshots: _listGameScreenshotTypeConverter
                 .decode(row['screenshots'] as String?),
             platforms: _listGamePlatformTypeConverter
-                .decode(row['platforms'] as String?)),
+                .decode(row['platforms'] as String?),
+            similarGames: _listSimilarGamesTypeConverter
+                .decode(row['similarGames'] as String?)),
         arguments: [search, limit, offset]);
   }
 
   @override
-  Future<void> insertGame(List<Game> game) async {
-    await _gameInsertionAdapter.insertList(game, OnConflictStrategy.replace);
+  Future<List<Game>> findGamesInId(List<int> ids, int limit, int offset) async {
+    const offset = 3;
+    final _sqliteVariablesForIds =
+        Iterable<String>.generate(ids.length, (i) => '?${i + offset}')
+            .join(',');
+    return _queryAdapter.queryList(
+        'SELECT * FROM game WHERE id IN (' +
+            _sqliteVariablesForIds +
+            ') LIMIT ?1 OFFSET ?2',
+        mapper: (Map<String, Object?> row) => Game(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            summary: row['summary'] as String?,
+            cover: _gameCoverTypeConverter.decode(row['cover'] as String?),
+            screenshots: _listGameScreenshotTypeConverter
+                .decode(row['screenshots'] as String?),
+            platforms: _listGamePlatformTypeConverter
+                .decode(row['platforms'] as String?),
+            similarGames: _listSimilarGamesTypeConverter
+                .decode(row['similarGames'] as String?)),
+        arguments: [limit, offset, ...ids]);
   }
 
   @override
@@ -152,3 +175,4 @@ class _$GameDao extends GameDao {
 final _gameCoverTypeConverter = GameCoverTypeConverter();
 final _listGameScreenshotTypeConverter = ListGameScreenshotTypeConverter();
 final _listGamePlatformTypeConverter = ListGamePlatformTypeConverter();
+final _listSimilarGamesTypeConverter = ListSimilarGamesTypeConverter();

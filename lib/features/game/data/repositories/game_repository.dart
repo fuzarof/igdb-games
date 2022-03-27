@@ -17,7 +17,7 @@ class GameRepository implements IGameRepository {
   Future<List<Game>> getGames({
     required int page,
     String? search,
-    Map<String, IGDBQueryData>? where,
+    List<int>? inIds,
   }) async {
     final gameDao = _databaseHelper.database!.gameDao;
     const int limit = 10;
@@ -34,10 +34,11 @@ class GameRepository implements IGameRepository {
           'platforms.id',
           'platforms.abbreviation',
           'platforms.name',
+          'similar_games.id',
         ];
 
         final String query = IGDBQueryHelper.buildQuery(
-            fields: fields, search: search, where: where, limit: limit, offset: limit * (page - 1));
+            fields: fields, search: search, inIds: inIds, limit: limit, offset: limit * (page - 1));
 
         final response = await _igdbCustomDio.post('/games', data: query);
 
@@ -53,7 +54,12 @@ class GameRepository implements IGameRepository {
 
         return result;
       } else {
-        List<Game> result = await gameDao.findAllGames("%${search ?? ''}%", limit, limit * (page - 1));
+        List<Game> result = [];
+        if (inIds != null) {
+          result = await gameDao.findGamesInId(inIds, limit, limit * (page - 1));
+        } else {
+          result = await gameDao.findGamesLike("%${search ?? ''}%", limit, limit * (page - 1));
+        }
         return result;
       }
     } catch (err) {

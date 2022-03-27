@@ -57,7 +57,9 @@ class _GameListPageState extends State<GameListPage> {
         return Container(
           margin: const EdgeInsets.only(top: 8.0),
           child: InkWell(
-            onTap: shimmer ? null : () => inject.get<NavigationHandler>().push('/details', arguments: game),
+            onTap: shimmer
+                ? null
+                : () => inject.get<NavigationHandler>().push('/details', arguments: {'game': game}),
             child: GameCardWidget(game: game, shimmer: shimmer),
           ),
         );

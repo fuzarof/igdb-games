@@ -6,6 +6,7 @@ import 'package:igdb_games/core/services/dio/igdb_custom_dio.dart';
 import 'package:igdb_games/core/services/navigation/navigation_handler.dart';
 import 'package:igdb_games/features/game/data/repositories/game_repository.dart';
 import 'package:igdb_games/features/game/domain/repositories/igame_repository.dart';
+import 'package:igdb_games/features/game/presentation/detail/bloc/game_details_bloc.dart';
 import 'package:igdb_games/features/game/presentation/list/bloc/game_list_bloc.dart';
 
 GetIt inject = GetIt.I;
@@ -25,4 +26,5 @@ void setup() {
 
   // Blocs
   inject.registerFactory<GameListBloc>(() => GameListBloc(inject.get()));
+  inject.registerFactory<GameDetailsBloc>(() => GameDetailsBloc(inject.get()));
 }

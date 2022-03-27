@@ -4,41 +4,13 @@ class IGDBQueryHelper {
     int? limit,
     int? offset,
     String? search,
-    Map<String, IGDBQueryData>? where,
+    List<int>? inIds,
   }) {
     String query = "fields ${(fields ?? ['*']).join(',')};";
     if (search != null && search.isNotEmpty) query += 'search "$search";';
-    if (where != null) {
-      where.forEach((key, value) {
-        if (where.keys.first == key) query += 'where ';
-        query += '$key = ${value.data}';
-        query += where.keys.last == key ? ';' : '&';
-      });
-    }
+    if (inIds != null) query += 'where id = (${inIds.join(',')});';
     query += 'limit ${(limit ?? 10)};';
     query += 'offset ${(offset ?? 0)};';
     return query;
-  }
-}
-
-abstract class IGDBQueryData {
-  late String data;
-}
-
-class Equal extends IGDBQueryData {
-  Equal(dynamic data) {
-    this.data = data.toString();
-  }
-}
-
-class Or extends IGDBQueryData {
-  Or(List<dynamic> dataList) {
-    data = "(${dataList.join(',')})";
-  }
-}
-
-class And extends IGDBQueryData {
-  And(List<dynamic> dataList) {
-    data = "{${dataList.join(',')}}";
   }
 }

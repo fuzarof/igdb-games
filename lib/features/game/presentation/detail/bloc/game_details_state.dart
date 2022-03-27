@@ -11,15 +11,13 @@ class GameDetailsEmptyState extends GameDetailsState {}
 
 class GameDetailsPendingState extends GameDetailsState {}
 
-class GameDetailsPendingMoreState extends GameDetailsState {}
-
 class GameDetailsLoadedState extends GameDetailsState {
-  // final List<Game> games;
+  final List<Game> similarGames;
 
-  // const GameDetailsLoadedState({required this.games});
+  const GameDetailsLoadedState({required this.similarGames});
 
-  // @override
-  // List<Object> get props => [games];
+  @override
+  List<Object> get props => [similarGames];
 }
 
 class GameDetailsRejectedState extends GameDetailsState {
