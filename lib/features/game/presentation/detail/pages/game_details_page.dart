@@ -95,6 +95,20 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                             style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.left),
                       )
                     : Container(),
+                const DetailTitle(icon: FontAwesomeIcons.star, title: 'Aggregated Rating'),
+                Container(
+                  padding: const EdgeInsets.only(left: 16.0, top: 16.0),
+                  width: double.infinity,
+                  child: widget.game.aggregatedRating != null
+                      ? Text(
+                          widget.game.aggregatedRating!.toStringAsFixed(2),
+                          textAlign: TextAlign.start,
+                          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                color: Theme.of(context).colorScheme.primary.withOpacity(0.9),
+                              ),
+                        )
+                      : const DetailMissing(),
+                ),
                 const DetailTitle(icon: FontAwesomeIcons.gamepad, title: 'Platforms'),
                 Container(
                   padding: const EdgeInsets.only(top: 16.0),
