@@ -40,23 +40,23 @@ class DetailAppbar extends SliverAppBar {
                   alignment: Alignment.bottomCenter,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(24.0),
-                    child: Hero(
-                      tag: "${game.cover?.imageId ?? ''}-${game.id}",
-                      child: game.cover != null
-                          ? ExtendedImage.network(
+                    child: game.cover != null && game.id != 0
+                        ? Hero(
+                            tag: "hero-tag-${game.id}",
+                            child: ExtendedImage.network(
                               game.cover!.cover,
                               fit: BoxFit.cover,
                               height: 250,
                               width: 200,
                               cache: true,
-                            )
-                          : Image.asset(
-                              'assets/image-placeholder.png',
-                              fit: BoxFit.cover,
-                              height: 250,
-                              width: 200,
                             ),
-                    ),
+                          )
+                        : Image.asset(
+                            'assets/image-placeholder.png',
+                            fit: BoxFit.cover,
+                            height: 250,
+                            width: 200,
+                          ),
                   ),
                 ),
               ],

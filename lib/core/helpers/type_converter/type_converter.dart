@@ -69,3 +69,30 @@ class ListGamePlatformTypeConverter extends TypeConverter<List<GamePlatform>?, S
     return null;
   }
 }
+
+class ListSimilarGamesTypeConverter extends TypeConverter<List<int>?, String?> {
+  @override
+  List<int>? decode(String? databaseValue) {
+    List<int> resultList = [];
+    if (databaseValue != null) {
+      List<int> itemList = List<int>.from(jsonDecode(databaseValue));
+      for (var item in itemList) {
+        resultList.add(int.parse(item.toString()));
+      }
+      return resultList;
+    }
+    return null;
+  }
+
+  @override
+  String? encode(List<int>? value) {
+    if (value != null) {
+      List<String> itemList = [];
+      for (var item in value) {
+        itemList.add(item.toString());
+      }
+      return jsonEncode(itemList);
+    }
+    return null;
+  }
+}

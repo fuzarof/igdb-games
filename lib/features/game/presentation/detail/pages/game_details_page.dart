@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:igdb_games/core/services/navigation/navigation_handler.dart';
 import 'package:igdb_games/core/widgets/custom_slider/carousel_slider.dart';
 import 'package:igdb_games/core/widgets/custom_scaffold/custom_scaffold.dart';
 import 'package:igdb_games/features/game/data/models/game_model.dart';
+import 'package:igdb_games/features/game/presentation/detail/bloc/game_details_bloc.dart';
 import 'package:igdb_games/features/game/presentation/detail/widgets/detail_appbar_widget.dart';
 import 'package:igdb_games/features/game/presentation/detail/widgets/detail_missing_widget.dart';
 import 'package:igdb_games/features/game/presentation/detail/widgets/detail_title_widget.dart';
+import 'package:igdb_games/features/game/presentation/list/widgets/game_card_widget.dart';
+import 'package:igdb_games/injection_container.dart';
 
 class GameDetailsPage extends StatefulWidget {
   static const String route = "/details";
 
   final Game game;
+  final bool? similarGame;
 
-  const GameDetailsPage({Key? key, required this.game}) : super(key: key);
+  const GameDetailsPage({Key? key, required this.game, this.similarGame = false}) : super(key: key);
 
   @override
   State<GameDetailsPage> createState() => _GameDetailsPageState();
@@ -20,6 +26,39 @@ class GameDetailsPage extends StatefulWidget {
 
 class _GameDetailsPageState extends State<GameDetailsPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GameDetailsBloc _gameDetailsBloc = inject.get<GameDetailsBloc>();
+  final List<Game> _relatedGames = [];
+
+  @override
+  void initState() {
+    _gameDetailsBloc.add(LoadRelatedGameListEvent(ids: widget.game.similarGames));
+    super.initState();
+  }
+
+  _buildSimilarGameList(bool shimmer) {
+    return ListView.builder(
+      padding: EdgeInsets.zero,
+      itemCount: shimmer ? 10 : _relatedGames.length,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: ((context, index) {
+        Game game = shimmer ? const Game.dummy() : _relatedGames[index];
+        return Container(
+          margin: const EdgeInsets.only(top: 8.0),
+          child: InkWell(
+            onTap: shimmer
+                ? null
+                : () =>
+                    inject.get<NavigationHandler>().pushReplacement('/details', arguments: {'game': game}),
+            child: GameCardWidget(
+              game: game,
+              shimmer: shimmer,
+            ),
+          ),
+        );
+      }),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +133,25 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                             ),
                           )
                         : const DetailMissing()),
+                const DetailTitle(icon: FontAwesomeIcons.plus, title: 'Similar games'),
+                BlocBuilder<GameDetailsBloc, GameDetailsState>(
+                  bloc: _gameDetailsBloc,
+                  builder: (context, state) {
+                    if (state is GameDetailsEmptyState) {
+                      return const Text('Empty list');
+                    }
+                    if (state is GameDetailsPendingState) {
+                      return _buildSimilarGameList(true);
+                    }
+                    if (state is GameDetailsRejectedState) {
+                      return Center(child: Text(state.message));
+                    }
+                    if (state is GameDetailsLoadedState) {
+                      _relatedGames.addAll(state.similarGames);
+                    }
+                    return _buildSimilarGameList(false);
+                  },
+                ),
               ],
             ),
           ),

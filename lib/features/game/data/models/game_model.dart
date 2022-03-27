@@ -12,11 +12,25 @@ class Game extends Equatable {
   final GameCover? cover;
   final List<GameScreenshot>? screenshots;
   final List<GamePlatform>? platforms;
+  final List<int>? similarGames;
 
   const Game(
-      {required this.id, required this.name, this.summary, this.cover, this.screenshots, this.platforms});
+      {required this.id,
+      required this.name,
+      this.summary,
+      this.cover,
+      this.screenshots,
+      this.platforms,
+      this.similarGames});
 
-  const Game.dummy({this.id = 0, this.name = '', this.summary, this.cover, this.screenshots, this.platforms});
+  const Game.dummy(
+      {this.id = 0,
+      this.name = '',
+      this.summary,
+      this.cover,
+      this.screenshots,
+      this.platforms,
+      this.similarGames});
 
   factory Game.fromJson(Map<String, dynamic> json) {
     GameCover? cover;
@@ -39,6 +53,10 @@ class Game extends Equatable {
       id: json['id'],
       name: json['name'],
       summary: json['summary'],
+      similarGames: json['similar_games'] != null
+          ? List<int>.from(
+              List<Map<String, dynamic>>.from(json['similar_games']).map((e) => e['id']).toList())
+          : null,
       cover: cover,
       screenshots: screenshots,
       platforms: platforms,
@@ -61,6 +79,7 @@ class Game extends Equatable {
         json['platforms'].add(platform);
       }
     }
+    json['similar_games'] = similarGames;
     return json;
   }
 
