@@ -11,6 +11,7 @@ class Application extends StatelessWidget {
       title: 'IGDB Games',
       theme: themeData,
       onGenerateRoute: inject.get<NavigationHandler>().appRoutes,
+      navigatorKey: inject.get<NavigationHandler>().appGlobalKey,
       initialRoute: '/',
       debugShowCheckedModeBanner: false,
     );

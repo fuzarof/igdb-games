@@ -9,13 +9,17 @@ class CustomScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
-        Theme.of(context).colorScheme.background,
-        Theme.of(context).colorScheme.onPrimary,
-      ])),
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Theme.of(context).colorScheme.background,
+            Theme.of(context).colorScheme.background.withOpacity(0.8),
+          ],
+        ),
+      ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        key: key,
         body: body,
       ),
     );

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:igdb_games/features/game/data/models/game_model.dart';
+import 'package:igdb_games/features/game/presentation/detail/pages/game_details_page.dart';
 import 'package:igdb_games/features/game/presentation/list/pages/game_list_page.dart';
 
 class NavigationHandler {
@@ -11,6 +13,12 @@ class NavigationHandler {
             settings: settings,
             builder: (_) {
               return const GameListPage();
+            });
+      case GameDetailsPage.route:
+        return MaterialPageRoute(
+            settings: settings,
+            builder: (_) {
+              return GameDetailsPage(game: settings.arguments as Game);
             });
       default:
         return MaterialPageRoute(
