@@ -18,9 +18,13 @@ class GameListBloc extends Bloc<GameListEvent, GameListState> {
       }
       try {
         final response = await _gameRepository.getGames(search: event.search, page: event.page);
-        emit(GameListLoadedState(games: response));
+        if (response.isNotEmpty) {
+          emit(GameListLoadedState(games: response));
+        } else {
+          emit(GameListEmptyState());
+        }
       } catch (e) {
-        emit(const GameListRejectedState(message: 'Error'));
+        emit(const GameListRejectedState(message: 'Could not load data'));
       }
     });
   }

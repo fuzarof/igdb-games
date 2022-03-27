@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:igdb_games/core/services/navigation/navigation_handler.dart';
+import 'package:igdb_games/core/widgets/custom_error/custom_error_widget.dart';
 import 'package:igdb_games/core/widgets/custom_scaffold/custom_scaffold.dart';
 import 'package:igdb_games/features/game/data/models/game_model.dart';
 import 'package:igdb_games/features/game/presentation/list/bloc/game_list_bloc.dart';
@@ -110,13 +111,18 @@ class _GameListPageState extends State<GameListPage> {
                   bloc: _gameListBloc,
                   builder: (context, state) {
                     if (state is GameListEmptyState) {
-                      return const Text('Empty list');
+                      return Container(
+                        padding: const EdgeInsets.only(top: 24.0),
+                        width: double.infinity,
+                        child: Text('No matches found',
+                            style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center),
+                      );
                     }
                     if (state is GameListPendingState) {
                       return _buildGameList(true);
                     }
                     if (state is GameListRejectedState) {
-                      return Center(child: Text(state.message));
+                      return CustomError(title: state.message);
                     }
                     if (_page == 1) {
                       _games.clear();
