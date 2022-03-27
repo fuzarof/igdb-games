@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:igdb_games/core/widgets/custom_scaffold/carousel_slider.dart';
+import 'package:igdb_games/core/widgets/custom_slider/carousel_slider.dart';
 import 'package:igdb_games/core/widgets/custom_scaffold/custom_scaffold.dart';
 import 'package:igdb_games/features/game/data/models/game_model.dart';
 import 'package:igdb_games/features/game/presentation/detail/widgets/detail_appbar_widget.dart';
@@ -30,6 +30,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) =>
             <Widget>[DetailAppbar(context, innerBoxIsScrolled: innerBoxIsScrolled, game: widget.game)],
         body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(

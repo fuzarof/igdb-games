@@ -26,7 +26,7 @@ class GameCardWidget extends StatelessWidget {
           Flexible(
             flex: 4,
             child: Hero(
-              tag: game.id.toString(),
+              tag: "${game.cover?.imageId ?? ''}-${game.id}",
               child: game.cover != null
                   ? ExtendedImage.network(
                       game.cover!.cover,
@@ -93,6 +93,8 @@ class GameCardWidget extends StatelessWidget {
                       children: [
                         Text(
                           game.name,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                         Text(

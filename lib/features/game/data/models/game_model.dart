@@ -1,8 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:floor/floor.dart';
 import 'package:igdb_games/features/game/data/models/game_image_model.dart';
 import 'package:igdb_games/features/game/data/models/game_platform_model.dart.dart';
 
+@Entity(tableName: 'game')
 class Game extends Equatable {
+  @primaryKey
   final int id;
   final String name;
   final String? summary;

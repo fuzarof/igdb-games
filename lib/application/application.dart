@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:igdb_games/application/theme.dart';
-import 'package:igdb_games/core/services/navigation_handler.dart';
+import 'package:igdb_games/core/services/navigation/navigation_handler.dart';
 import 'package:igdb_games/injection_container.dart';
 
 class Application extends StatelessWidget {

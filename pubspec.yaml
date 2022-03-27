@@ -21,6 +21,8 @@ dependencies:
   font_awesome_flutter: ^10.1.0
   shimmer: ^2.0.0
   extended_image: ^6.0.2+1
+  connectivity_plus: ^2.2.1
+  another_flushbar: ^1.10.28
 
 dev_dependencies:
   flutter_test:

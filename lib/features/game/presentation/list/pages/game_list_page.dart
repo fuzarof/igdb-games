@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:igdb_games/core/services/navigation_handler.dart';
+import 'package:igdb_games/core/services/navigation/navigation_handler.dart';
 import 'package:igdb_games/core/widgets/custom_scaffold/custom_scaffold.dart';
 import 'package:igdb_games/features/game/data/models/game_model.dart';
 import 'package:igdb_games/features/game/presentation/list/bloc/game_list_bloc.dart';
@@ -101,6 +101,7 @@ class _GameListPageState extends State<GameListPage> {
               _fetchList(true);
             },
             child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: BlocBuilder<GameListBloc, GameListState>(

@@ -1,9 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:floor/floor.dart';
 import 'package:igdb_games/core/helpers/constants/constants.dart';
 import 'package:igdb_games/core/helpers/dotenv/dotenv_helper.dart';
 import 'package:igdb_games/injection_container.dart';
 
 class GameImage extends Equatable {
+  @primaryKey
   final int id;
   final String imageId;
 
@@ -26,6 +28,7 @@ class GameImage extends Equatable {
   List<Object?> get props => [id, imageId];
 }
 
+@Entity(tableName: 'game_cover')
 class GameCover extends GameImage {
   final String thumbnail;
   final String cover;
@@ -56,6 +59,7 @@ class GameCover extends GameImage {
   List<Object?> get props => [id, imageId, thumbnail, cover];
 }
 
+@Entity(tableName: 'game_screenshot')
 class GameScreenshot extends GameImage {
   final String screenshot;
 

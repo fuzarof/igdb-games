@@ -1,6 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:floor/floor.dart';
 
+@entity
 class GamePlatform extends Equatable {
+  @primaryKey
   final int id;
   final String abbreviation;
   final String name;

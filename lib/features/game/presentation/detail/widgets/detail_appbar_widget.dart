@@ -1,6 +1,6 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:igdb_games/core/widgets/custom_scaffold/custom_leading.dart';
+import 'package:igdb_games/core/widgets/custom_leading/custom_leading.dart';
 import 'package:igdb_games/features/game/data/models/game_model.dart';
 
 class DetailAppbar extends SliverAppBar {
@@ -41,7 +41,7 @@ class DetailAppbar extends SliverAppBar {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(24.0),
                     child: Hero(
-                      tag: game.id.toString(),
+                      tag: "${game.cover?.imageId ?? ''}-${game.id}",
                       child: game.cover != null
                           ? ExtendedImage.network(
                               game.cover!.cover,
