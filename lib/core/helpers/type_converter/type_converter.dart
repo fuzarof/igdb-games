@@ -87,9 +87,9 @@ class ListSimilarGamesTypeConverter extends TypeConverter<List<int>?, String?> {
   @override
   String? encode(List<int>? value) {
     if (value != null) {
-      List<String> itemList = [];
+      List<int> itemList = [];
       for (var item in value) {
-        itemList.add(item.toString());
+        itemList.add(item);
       }
       return jsonEncode(itemList);
     }

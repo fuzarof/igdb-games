@@ -21,7 +21,7 @@ class GameCardWidget extends StatelessWidget {
         children: [
           Flexible(
             flex: 4,
-            child: game.cover != null && game.id != 0
+            child: game.cover != null && game.id != const Game.dummy().id
                 ? Hero(
                     tag: "hero-tag-${game.id}",
                     child: ExtendedImage.network(

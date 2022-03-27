@@ -14,7 +14,11 @@ class GameDetailsBloc extends Bloc<GameDetailsEvent, GameDetailsState> {
       emit(GameDetailsPendingState());
       try {
         final response = await _gameRepository.getGames(page: 1, inIds: event.ids);
-        emit(GameDetailsLoadedState(similarGames: response));
+        if (response.isNotEmpty) {
+          emit(GameDetailsLoadedState(similarGames: response));
+        } else {
+          emit(GameDetailsEmptyState());
+        }
       } catch (e) {
         emit(const GameDetailsRejectedState(message: 'Error'));
       }
