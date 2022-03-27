@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:igdb_games/core/services/navigation_handler.dart';
 import 'package:igdb_games/core/widgets/custom_scaffold/custom_scaffold.dart';
 import 'package:igdb_games/features/game/data/models/game_model.dart';
 import 'package:igdb_games/features/game/presentation/list/bloc/game_list_bloc.dart';
@@ -19,6 +20,7 @@ class GameListPage extends StatefulWidget {
 }
 
 class _GameListPageState extends State<GameListPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GameListBloc _gameListBloc = inject.get<GameListBloc>();
   final TextEditingController _searchController = TextEditingController();
   final List<Game> _games = [];
@@ -46,7 +48,7 @@ class _GameListPageState extends State<GameListPage> {
 
   _buildGameList(bool shimmer) {
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 0),
+      padding: EdgeInsets.symmetric(vertical: (shimmer ? 0 : 24.0), horizontal: 0),
       itemCount: shimmer ? 10 : _games.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -54,7 +56,10 @@ class _GameListPageState extends State<GameListPage> {
         Game game = shimmer ? const Game.dummy() : _games[index];
         return Container(
           margin: const EdgeInsets.only(top: 8.0),
-          child: GameCardWidget(game: game, shimmer: shimmer),
+          child: InkWell(
+            onTap: shimmer ? null : () => inject.get<NavigationHandler>().push('/details', arguments: game),
+            child: GameCardWidget(game: game, shimmer: shimmer),
+          ),
         );
       }),
     );
@@ -77,6 +82,7 @@ class _GameListPageState extends State<GameListPage> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       context,
+      key: _scaffoldKey,
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[

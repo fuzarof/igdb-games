@@ -1,3 +1,4 @@
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:igdb_games/features/game/data/models/game_model.dart';
@@ -24,19 +25,23 @@ class GameCardWidget extends StatelessWidget {
         children: [
           Flexible(
             flex: 4,
-            child: game.cover != null
-                ? Image.network(
-                    game.cover!.cover,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: double.infinity,
-                  )
-                : Image.asset(
-                    'assets/image-placeholder.png',
-                    fit: BoxFit.fitHeight,
-                    width: double.infinity,
-                    height: double.infinity,
-                  ),
+            child: Hero(
+              tag: game.id.toString(),
+              child: game.cover != null
+                  ? ExtendedImage.network(
+                      game.cover!.cover,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                      cache: true,
+                    )
+                  : Image.asset(
+                      'assets/image-placeholder.png',
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                    ),
+            ),
           ),
           Flexible(
             flex: 6,
