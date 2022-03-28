@@ -31,6 +31,7 @@ class GameRepository implements IGameRepository {
           'screenshots.image_id',
           'cover.id',
           'cover.image_id',
+          'aggregated_rating',
           'platforms.id',
           'platforms.abbreviation',
           'platforms.name',

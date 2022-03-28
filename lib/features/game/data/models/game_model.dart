@@ -10,6 +10,7 @@ class Game extends Equatable {
   final String? name;
   final String? summary;
   final GameCover? cover;
+  final double? aggregatedRating;
   final List<GameScreenshot>? screenshots;
   final List<GamePlatform>? platforms;
   final List<int>? similarGames;
@@ -18,6 +19,7 @@ class Game extends Equatable {
       {required this.id,
       this.name,
       this.summary,
+      this.aggregatedRating,
       this.cover,
       this.screenshots,
       this.platforms,
@@ -27,6 +29,7 @@ class Game extends Equatable {
       {this.id = 0,
       this.name,
       this.summary,
+      this.aggregatedRating,
       this.cover,
       this.screenshots,
       this.platforms,
@@ -51,12 +54,13 @@ class Game extends Equatable {
     }
     Game newGame = Game(
       id: json['id'] ?? 0,
-      name: json['name'] ?? '',
+      name: json['name'],
       summary: json['summary'],
       similarGames: json['similar_games'] != null
           ? List<int>.from(
               List<Map<String, dynamic>>.from(json['similar_games']).map((e) => e['id']).toList())
           : null,
+      aggregatedRating: json['aggregated_rating'],
       cover: cover,
       screenshots: screenshots,
       platforms: platforms,
@@ -80,9 +84,11 @@ class Game extends Equatable {
       }
     }
     json['similar_games'] = similarGames;
+    json['aggregated_rating'] = aggregatedRating;
     return json;
   }
 
   @override
-  List<Object?> get props => [id, name, summary, cover, screenshots, platforms, similarGames];
+  List<Object?> get props =>
+      [id, name, summary, cover, aggregatedRating, screenshots, platforms, similarGames];
 }

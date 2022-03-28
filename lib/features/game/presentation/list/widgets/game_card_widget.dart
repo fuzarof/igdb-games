@@ -87,11 +87,36 @@ class GameCardWidget extends StatelessWidget {
                   : Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          game.name ?? '',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: Theme.of(context).textTheme.titleMedium,
+                        SizedBox(
+                          width: double.infinity,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                game.name ?? '',
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.right,
+                                maxLines: 1,
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                              game.aggregatedRating != null
+                                  ? Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        FaIcon(FontAwesomeIcons.star,
+                                            size: 14,
+                                            color: Theme.of(context).colorScheme.primary.withOpacity(0.8)),
+                                        Text(
+                                          game.aggregatedRating!.toStringAsFixed(2),
+                                          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                              color: Theme.of(context).colorScheme.primary.withOpacity(0.8)),
+                                        ),
+                                      ],
+                                    )
+                                  : Container(),
+                            ],
+                          ),
                         ),
                         Text(
                           game.summary ?? '',
