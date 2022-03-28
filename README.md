@@ -1,16 +1,26 @@
-# igdb_games
+# IGDB Games
 
-A new Flutter project.
+App to list games from IGDB Api using Bloc, GetIt, Dio and Floor.
+
+[API Reference](https://api-docs.igdb.com/)
+
+## Demo
+
+![](demo/demo.gif)
+
+## Features
+
+  ✅ Pull to refresh.\
+  ✅ Search loading debounced.\
+  ✅ Infinity scroll pagination.\
+  ✅ Offline persistence.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Create a .env file with your data.
 
-A few resources to get you started if this is your first Flutter project:
+`flutter run`
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+To run tests
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+`flutter test`
